@@ -1,0 +1,15 @@
+{
+  "Records": [
+    {
+      "eventID": "demo-2",
+      "eventTime": "2026-10-03T12:00:00Z",
+      "eventName": "CreateAccessKey"
+    },
+    {
+      "eventID": "demo-1",
+      "eventTime": "2026-10-03T11:00:00Z",
+      "eventName": "ConsoleLogin"
+    }
+  ]
+}
+
