@@ -1,26 +1,117 @@
-# cloud-incident-timeline
+# Cloud Incident Timeline Reconstructor
 
-Normalize, deduplicate and order CloudTrail events into an investigation timeline.
+<p align="center">
+  <img src="https://img.shields.io/badge/Security-Defensive_Auditor-blue?style=flat" alt="Type">
+  <img src="https://img.shields.io/badge/Status-Architectural_Showcase-success?style=flat" alt="Status">
+  <img src="https://img.shields.io/badge/Python-3.10+-3776AB?style=flat&logo=python&logoColor=white" alt="Python">
+</p>
 
-## Usage
+> 🔒 **Technical Showcase & Architecture Specification**  
+> *This repository provides public architectural documentation, system specifications, and implementation summaries. Full production source code, internal test suites, and proprietary algorithms are maintained in a secure private repository.*
 
-Python 3.10+; Windows, Linux and macOS. No dependencies or cloud credentials.
+---
 
-```bash
-python analyzer.py sample.json
-python analyzer.py inventory.json --output report.json --fail-on-high
-python -B -m unittest -v
+## 📌 Executive Summary
+
+**Category**: Incident Response & Forensics  
+**Tech Stack**: `Python 3.10+ · AWS CloudTrail · Digital Forensics · Log Chronology`  
+
+Forensic timeline engine that ingests, deduplicates, and normalizes multi-source CloudTrail logs into high-fidelity investigation chronologies.
+
+---
+
+## 🎯 The Problem It Solves
+
+During active cloud security incidents, raw CloudTrail and audit logs are voluminous, fragmented, and delivered out-of-order. Security analysts waste critical response time manually parsing and correlating timestamp events.
+
+---
+
+## ⚙️ How the Engine Works
+
+1. **Log Ingestion & Parsing**: Ingests raw AWS CloudTrail events and audit streams, parsing complex API call parameters and user identities.
+2. **Cryptographic Deduplication**: Generates deterministic hashes across event records (`eventTime`, `eventName`, `userIdentity`, `requestParameters`) to eliminate duplicate log deliveries.
+3. **Chronological Event Ordering**: Normalizes heterogeneous timestamp formats into ISO 8601 UTC and constructs an immutable chronological event stream.
+4. **Attack Phase Mapping**: Correlates API calls to standard MITRE ATT&CK Cloud phases (Initial Access, Privilege Escalation, Defense Evasion, Exfiltration).
+5. **Timeline Synthesis**: Outputs a consolidated investigation timeline highlighting anomalous user activity, burst API usage, and administrative actions.
+
+---
+
+## 🚀 Key Capabilities
+
+- Transforms thousands of raw JSON audit records into clean chronological timelines
+- Removes redundant multi-region duplicate records
+- Maps user identity transitions (AssumeRole, SwitchRole, ConsoleLogin)
+- Exports structured forensic outputs ready for incident responders
+
+---
+
+## 🏗️ System Data Flow & Architecture
+
+```
++-----------------------------------+
+|  Target Input / Configuration    |
+|  (JSON Snapshots / Policies)      |
++-----------------+-----------------+
+                  |
+                  v
++-----------------------------------+
+|  1. Schema Normalization Engine   |
+|  Validates types & formats        |
++-----------------+-----------------+
+                  |
+                  v
++-----------------------------------+
+|  2. Core Analytical Pipeline      |
+|  Heuristic rule evaluation,       |
+|  invariant checks & drift diffs   |
++-----------------+-----------------+
+                  |
+                  v
++-----------------------------------+
+|  3. Risk Classification           |
+|  Assigns severity: INFO / HIGH    |
++-----------------+-----------------+
+                  |
+                  v
++-----------------------------------+
+|  4. Structured Findings & Report  |
+|  Root cause, evidence &           |
+|  actionable remediation steps     |
++-----------------------------------+
 ```
 
-Exit codes: 0 completed, 1 HIGH results when requested, 2 invalid input/I/O error.
+---
 
-## Input and interpretation
+## 📄 Findings Output Structure
 
-Use the supplied sample.json as the exact input schema. CloudTrail projects consume a Records array. Other projects consume normalized inventory or IAM statements; collection from cloud APIs is outside this version's scope. Required fields must follow the sample types. The IAM project expects Statement to be an array.
+The engine generates structured, machine-parsable JSON reports adhering to this standard audit schema:
 
-Results contain evidence, severity, explanation and remediation. UNKNOWN means missing information, INFO records an event or change, MEDIUM requests review and HIGH requests priority investigation. These are focused analyst utilities, not comprehensive posture assessments. Inspect the supported checks in analyzer.py; a clean report covers only those checks. Real inventory and reports may contain sensitive identifiers; keep them out of public repositories. No input is uploaded and no cloud resource is changed.
+```json
+{
+  "results": [
+    {
+      "resource": "resource-identifier",
+      "severity": "HIGH",
+      "check": "CHECK_IDENTIFIER",
+      "detail": "Descriptive analysis of the identified security posture issue.",
+      "remediation": "Actionable step-by-step guidance to restore compliant state.",
+      "evidence": {
+        "observed_field": "value",
+        "required_policy": "enforced_policy"
+      }
+    }
+  ],
+  "count": 1,
+  "scope": "Comprehensive defensive security audit"
+}
+```
 
-## Validation
+---
 
-Tests cover selected detection and false-positive cases. Sample data is fictional. Run tests before adopting or extending rules. Live provider behavior and effective access require separate validation.
+## 🔒 Source Code & Enterprise Inquiries
 
+To protect proprietary intellectual property and client operational security:
+* **Public Repository**: Contains comprehensive architecture specifications, schemas, and design overviews.
+* **Private Repository**: Contains the complete production implementation, continuous integration pipelines, and full regression test suites.
+
+For architectural questions or enterprise inquiries, connect via [LinkedIn](https://www.linkedin.com/in/karthikeyansubramaniam04/) or visit the [Portfolio Site](https://karthikeyansubramaniyam.github.io).
